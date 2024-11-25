@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Toast Notification</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Animasi muncul dan hilang */
+    @keyframes slideIn {
+      from {
+        transform: translateY(50%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    @keyframes slideOut {
+      from {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      to {
+        transform: translateY(50%);
+        opacity: 0;
+      }
+    }
+    .toast-show {
+      animation: slideIn 0.5s ease forwards;
+    }
+    .toast-hide {
+      animation: slideOut 0.5s ease forwards;
+    }
+  </style>
+</head>
+<body class="bg-gray-900 flex items-center justify-center min-h-screen">
+
+  <!-- Button untuk menampilkan toast -->
+  <div class="space-x-4">
+    <button 
+      class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 focus:outline-none"
+      onclick="showToast('success', 'Berhasil menyimpan data!')"
+    >
+      Show Success Toast
+    </button>
+    <button 
+      class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 focus:outline-none"
+      onclick="showToast('error', 'Terjadi kesalahan, coba lagi!')"
+    >
+      Show Error Toast
+    </button>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="fixed top-4 right-4 space-y-4"></div>
+
+  <script>
+    function showToast(type, message) {
+      // Elemen container
+      const toastContainer = document.getElementById('toast-container');
+
+      // Elemen toast baru
+      const toast = document.createElement('div');
+      toast.className = `toast-show px-4 py-2 rounded-lg shadow-lg text-white ${
+        type === 'success' ? 'bg-green-500' : 'bg-red-500'
+      }`;
+      toast.textContent = message;
+
+      // Tambahkan elemen toast ke container
+      toastContainer.appendChild(toast);
+
+      // Hapus toast setelah 3 detik
+      setTimeout(() => {
+        toast.classList.replace('toast-show', 'toast-hide');
+        toast.addEventListener('animationend', () => toast.remove());
+      }, 3000);
+    }
+  </script>
+
+</body>
+</html>
